@@ -8,26 +8,26 @@
         <div class="key-board-area">
           <!-- 默认键盘 -->
           <DefaultBoard
-            ref="defaultBoardRef"
-            v-if="showMode === 'default'"
-            @trigger="trigger"
-            @change="change"
-            @translate="translate"
+              ref="defaultBoardRef"
+              v-if="showMode === 'default'"
+              @trigger="trigger"
+              @change="change"
+              @translate="translate"
           />
           <!-- 手写键盘 -->
           <HandBoard
-            v-if="showMode === 'handwrite'"
-            @trigger="trigger"
-            @change="change"
+              v-if="showMode === 'handwrite'"
+              @trigger="trigger"
+              @change="change"
           />
         </div>
       </div>
       <!-- 拖拽句柄 -->
       <div
-        v-if="showHandleBar"
-        class="key-board-drag-handle"
-        :style="{ color }"
-        v-handleDrag
+          v-if="showHandleBar"
+          class="key-board-drag-handle"
+          :style="{ color }"
+          v-handleDrag
       >
         <span>{{ dargHandleText || "将键盘拖到您喜欢的位置" }}</span>
         <svg-icon icon-class="drag" />
@@ -141,7 +141,7 @@ export default defineComponent({
         useEventEmitter.emit("keyBoardChange", "CN");
       });
       switch (mode) {
-        // 英文键盘
+          // 英文键盘
         case "en":
           keyboardData.showMode = "default";
           nextTick(() => {
@@ -151,7 +151,7 @@ export default defineComponent({
             });
           });
           break;
-        // 数字键盘
+          // 数字键盘
         case "number":
           keyboardData.showMode = "default";
           nextTick(() => {
@@ -161,11 +161,11 @@ export default defineComponent({
             });
           });
           break;
-        // 手写键盘
+          // 手写键盘
         case "handwrite":
           if (
-            props.modeList?.find((mode) => mode === "handwrite") &&
-            props.handApi
+              props.modeList?.find((mode) => mode === "handwrite") &&
+              props.handApi
           ) {
             keyboardData.showMode = "handwrite";
             nextTick(() => {
@@ -175,7 +175,7 @@ export default defineComponent({
             keyboardData.showMode = "default";
           }
           break;
-        // 标点键盘
+          // 标点键盘
         case "symbol":
           keyboardData.showMode = "default";
           // 如果存在标点键盘才允许切换
@@ -192,7 +192,7 @@ export default defineComponent({
             });
           }
           break;
-        // 默认
+          // 默认
         default:
           keyboardData.showMode = "default";
           break;
@@ -215,7 +215,7 @@ export default defineComponent({
       // 显示遮罩层
       if (document.querySelector(".key-board-modal")) {
         const keyBoardModal = document.querySelector(
-          ".key-board-modal"
+            ".key-board-modal"
         ) as HTMLElement;
         keyBoardModal.style.display = "block";
       }
@@ -242,7 +242,7 @@ export default defineComponent({
       // 隐藏遮罩层
       if (document.querySelector(".key-board-modal")) {
         const keyBoardModal = document.querySelector(
-          ".key-board-modal"
+            ".key-board-modal"
         ) as HTMLElement;
         keyBoardModal.style.display = "none";
       }
@@ -264,8 +264,8 @@ export default defineComponent({
       // 如果modal存在的话继续绑定事件 - 此处解决多路由页面切换时造成的bug
       if (document.querySelector(".key-board-modal")) {
         document
-          .querySelector(".key-board-modal")
-          ?.addEventListener("click", modalTrigger);
+            .querySelector(".key-board-modal")
+            ?.addEventListener("click", modalTrigger);
         return;
       }
 
@@ -301,33 +301,33 @@ export default defineComponent({
     function trigger({ type }: IKeyCode) {
       switch (type) {
         case "handwrite":
-          {
-            keyboardData.showMode = "handwrite";
-          }
+        {
+          keyboardData.showMode = "handwrite";
+        }
           break;
         case "delete":
-          {
-            let changeValue: string;
-            // v-model exist
-            if (props.modelValue) {
-              changeValue = props.modelValue.substr(
+        {
+          let changeValue: string;
+          // v-model exist
+          if (props.modelValue) {
+            changeValue = props.modelValue.substr(
                 0,
                 props.modelValue.length - 1
-              );
-              emit("update:modelValue", changeValue);
-            } else {
-              changeValue = currentInput.value.substr(
+            );
+            emit("update:modelValue", changeValue);
+          } else {
+            changeValue = currentInput.value.substr(
                 0,
                 currentInput.value.length - 1
-              );
-              currentInput.value = changeValue;
-            }
-            emit(
+            );
+            currentInput.value = changeValue;
+          }
+          emit(
               "change",
               changeValue,
               currentInput.getAttribute("data-prop") || currentInput
-            );
-          }
+          );
+        }
           break;
       }
     }
@@ -344,16 +344,17 @@ export default defineComponent({
       } else {
         changeValue = currentInput.value + value;
         currentInput.value = changeValue;
+        currentInput.dispatchEvent(new Event('input'))
       }
       emit(
-        "change",
-        changeValue,
-        currentInput.getAttribute("data-prop") || currentInput
+          "change",
+          changeValue,
+          currentInput.getAttribute("data-prop") || currentInput
       );
       emit(
-        "keyChange",
-        value,
-        currentInput.getAttribute("data-prop") || currentInput
+          "keyChange",
+          value,
+          currentInput.getAttribute("data-prop") || currentInput
       );
     }
 
@@ -364,20 +365,20 @@ export default defineComponent({
     function translate(value: string) {
       const reg = new RegExp(`^${value}\\w*`);
       const keys = Object.keys(pinYinNote)
-        .filter((key) => reg.test(key))
-        .sort();
+          .filter((key) => reg.test(key))
+          .sort();
       keyboardData.resultVal = {
         code: value,
         value: value
-          ? keys.length > 1
-            ? keys.reduce((a, b) => a + pinYinNote[b], "")
-            : pinYinNote[keys[0]]
-          : "",
+            ? keys.length > 1
+                ? keys.reduce((a, b) => a + pinYinNote[b], "")
+                : pinYinNote[keys[0]]
+            : "",
       };
       emit(
-        "keyChange",
-        value,
-        currentInput.getAttribute("data-prop") || currentInput
+          "keyChange",
+          value,
+          currentInput.getAttribute("data-prop") || currentInput
       );
     }
 
@@ -410,8 +411,8 @@ export default defineComponent({
     // 卸载时事件清除
     onUnmounted(() => {
       document
-        .querySelector(".key-board-modal")
-        ?.removeEventListener("click", modalTrigger);
+          .querySelector(".key-board-modal")
+          ?.removeEventListener("click", modalTrigger);
       inputList.forEach((input) => {
         input.removeEventListener("focus", showKeyBoard);
         input.removeEventListener("blur", hideKeyBoard);
@@ -420,17 +421,17 @@ export default defineComponent({
 
     // 注入到子组件
     getProvide(
-      reactive({
-        color: props.color,
-        modeList: props.modeList,
-        handApi: props.handApi,
-        closeKeyBoard: () => {
-          hideKeyBoard();
-        },
-        changeDefaultBoard: () => {
-          keyboardData.showMode = "default";
-        },
-      })
+        reactive({
+          color: props.color,
+          modeList: props.modeList,
+          handApi: props.handApi,
+          closeKeyBoard: () => {
+            hideKeyBoard();
+          },
+          changeDefaultBoard: () => {
+            keyboardData.showMode = "default";
+          },
+        })
     );
 
     return {
