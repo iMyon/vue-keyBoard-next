@@ -104,8 +104,8 @@ createApp(App)
 </template>
 
 <script lang="ts">
-import "keyboard-virtual-vue/keyboard.min.css";
-import KeyBoard from "keyboard-virtual-vue";
+import "vue-keyboard-virtual-next/keyboard.min.css";
+import KeyBoard from "vue-keyboard-virtual-next";
 import { defineComponent, ref } from "vue";
 export default defineComponent({
   components: { KeyBoard },
@@ -183,10 +183,10 @@ export default defineComponent({
   setup() {
     const value = ref<string>("你好");
     const keyBoardRef = ref<typeof KeyBoard | null>(null);
-      
+
     onMounted(() => {
-        // xxxx逻辑 给键盘重新注册输入框
-        keyBoardRef.value?.reSignUp();
+      // xxxx逻辑 给键盘重新注册输入框
+      keyBoardRef.value?.reSignUp();
     })
 
     return {
