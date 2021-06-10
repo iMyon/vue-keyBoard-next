@@ -213,6 +213,10 @@ export default defineComponent({
             ) {
               emit("translate", defaultKeyBoardData.oldVal + data);
               defaultKeyBoardData.oldVal = defaultKeyBoardData.oldVal + data;
+              // 以空格结束时情况拼音缓存
+              if (data === " ") {
+                defaultKeyBoardData.oldVal = ""
+              }
             } else {
               // 英文直接输出
               emit("change", data);
@@ -253,20 +257,19 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 1350px;
+    width: calc(100% - 30px);
 
     &.line1 {
       margin-top: 50px;
     }
     &.line2 {
-      width: 1210px;
+      width: 85%;
     }
     &.line4 {
       margin-top: 40px;
 
       .key-board-button {
         & + .key-board-button {
-          margin-left: 40px;
         }
       }
     }

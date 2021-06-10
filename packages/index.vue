@@ -363,10 +363,13 @@ export default defineComponent({
      * @param {string} value
      */
     function translate(value: string) {
+      const isEndWithSpace = value.endsWith(' ');
+      value = value.replace(/\s+$/,'');
       const reg = new RegExp(`^${value}\\w*`);
       const keys = Object.keys(pinYinNote)
           .filter((key) => reg.test(key))
           .sort();
+
       keyboardData.resultVal = {
         code: value,
         value: value
@@ -375,11 +378,20 @@ export default defineComponent({
                 : pinYinNote[keys[0]]
             : "",
       };
-      emit(
-          "keyChange",
-          value,
-          currentInput.getAttribute("data-prop") || currentInput
-      );
+      // 以空格结束时直接输出
+      if (isEndWithSpace) {
+        change(keyboardData.resultVal.value && keyboardData.resultVal.value[0] || " ");
+        keyboardData.resultVal = {
+          code: "",
+          value: ""
+        }
+      } else {
+        emit(
+            "keyChange",
+            value,
+            currentInput.getAttribute("data-prop") || currentInput
+        );
+      }
     }
 
     /**
