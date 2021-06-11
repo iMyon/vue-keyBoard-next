@@ -1,5 +1,5 @@
 {
-  "name": "vue-keyboard-virtual-next",
+  "name": "@imyon/vue-keyboard-next ",
   "version": "1.0.0",
   "description": "keyBoard base on Vue3 , support hand write✒",
   "main": "index.js",
@@ -10,12 +10,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cangshudada/vue-keyBoard-next.git"
+    "url": "git+https://github.com/iMyon/vue-keyBoard-next.git"
   },
-  "homepage": "https://github.com/cangshudada/vue-keyBoard-next#readme",
-  "author": "cangshudada (https://github.com/cangshudada/)",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "homepage": "https://github.com/iMyon/vue-keyBoard-next.git#readme",
+  "author": "iMyon (https://github.com/iMyon/)",
   "bugs": {
-    "url": "https://github.com/cangshudada/vue-keyBoard-next/issues"
+    "url": "https://github.com/iMyon/vue-keyBoard-next.git/issues"
   },
   "license": "MIT"
 }
