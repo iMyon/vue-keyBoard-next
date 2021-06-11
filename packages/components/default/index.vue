@@ -260,14 +260,12 @@ export default defineComponent({
     width: calc(100% - 30px);
 
     &.line1 {
-      margin-top: 50px;
+      //margin-top: 50px;
     }
     &.line2 {
-      width: 85%;
+      width: 88%;
     }
     &.line4 {
-      margin-top: 40px;
-
       .key-board-button {
         & + .key-board-button {
         }

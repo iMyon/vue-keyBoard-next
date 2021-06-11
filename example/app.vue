@@ -22,7 +22,7 @@
         <input data-mode="handwrite" class="form-control" v-model="value" />
       </div>
     </form>
-    <KeyBoard modal />
+    <KeyBoard :closeOnClickModal="false" color="#212529" :blurHide="false" modal />
   </div>
 </template>
 

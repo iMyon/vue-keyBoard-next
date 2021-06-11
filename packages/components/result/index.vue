@@ -2,23 +2,25 @@
   <div
     class="key-board-result"
     :style="{ color }"
-    v-if="status === 'CN' || status === 'handwrite'"
+    v-if="(status === 'CN' && data.code) || status === 'handwrite'"
   >
     <div class="key-board-code-show" v-if="status === 'CN'">
       {{ data.code }}
     </div>
     <div class="key-board-result-show">
-      <div class="key-board-result-show-container">
-        <span
-          v-for="(key, index) in showList[showIndex]"
-          :key="index"
-          @click="selectWord(key)"
-          >{{ index + 1 }}.{{ key }}</span
-        >
-      </div>
-      <div class="key-board-result-show-more" v-if="valueList.length > 11">
-        <span :style="getStyle" @click="upper"></span>
-        <span :style="getStyle" @click="lower"></span>
+      <div class="hg-candidate-box">
+        <div class="hg-candidate-box-prev"
+             :class="{'hg-candidate-box-btn-active': showIndex + 1 > 1}"
+             @click="upper"></div>
+        <ul class="hg-candidate-box-list">
+          <li class="hg-candidate-box-list-item" v-for="(key, index) in showList[showIndex]"
+              :key="index"
+              @click="selectWord(key)"
+          >{{ key }}</li>
+        </ul>
+        <div class="hg-candidate-box-next"
+             :class="{'hg-candidate-box-btn-active': showIndex + 1 < showList.length}"
+             @click="lower"></div>
       </div>
     </div>
   </div>
@@ -143,71 +145,88 @@ export default defineComponent({
 
 <style scoped lang='less'>
 .key-board-result {
-  width: 1435px;
+  width: 100%;
   height: 139px;
-  border-bottom: 1px solid #707070;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  position: absolute;
+  top: -145px;
+  margin-left: 20px;
 
   .key-board-code-show {
-    margin-top: 25px;
-    width: 100%;
     height: 40px;
     background: #f5f5f5;
-    border-radius: 25px;
-    font-size: 32px;
+    padding: 5px;
+    border-radius: 5px 5px 0 0;
+    font-size: 40px;
     font-weight: 400;
     line-height: 40px;
-    text-indent: 12px;
+    transform: translateY(-6px);
+    z-index: -1;
   }
 
   .key-board-result-show {
-    width: 100%;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
     flex: 1;
+    font-size: 50px;
 
-    .key-board-result-show-container {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      width: 95%;
-      max-width: 95%;
-      overflow: hidden;
-      span {
-        white-space: nowrap;
-        font-size: 40px;
-        font-family: SimHei;
-        font-weight: 400;
-        line-height: 54px;
-        & + span {
-          margin-left: 40px;
-        }
-      }
+    .hg-candidate-box {
+      background:#ececec;
+      border-bottom:2px solid #b5b5b5;
+      border-radius:5px;
+      display:inline-flex;
+      margin-top:-10px;
+      user-select:none
     }
-
-    .key-board-result-show-more {
-      height: 45px;
-      flex: 1;
-      border-left: 1px solid #707070;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      span {
-        width: 0px;
-        height: 0px;
-        border: 16px solid;
-        border-color: transparent;
-        &:nth-child(1) {
-          transform: translateY(-11px) rotate(180deg);
-        }
-        &:nth-child(2) {
-          transform: translateY(-5px);
-        }
-      }
+    ul.hg-candidate-box-list {
+      display:flex;
+      flex:1;
+      list-style:none;
+      margin:0;
+      padding:0
+    }
+    li.hg-candidate-box-list-item {
+      align-items:center;
+      display:flex;
+      height:100px;
+      justify-content:center;
+      width:100px
+    }
+    li.hg-candidate-box-list-item:hover {
+      background:rgba(0,0,0,.03);
+      cursor:pointer
+    }
+    li.hg-candidate-box-list-item:active {
+      background:rgba(0,0,0,.1)
+    }
+    .hg-candidate-box-prev:before {
+      content:"◄"
+    }
+    .hg-candidate-box-next:before {
+      content:"►"
+    }
+    .hg-candidate-box-next,
+    .hg-candidate-box-prev {
+      align-items:center;
+      background:#d0d0d0;
+      color:#969696;
+      cursor:pointer;
+      display:flex;
+      padding:0 10px
+    }
+    .hg-candidate-box-next {
+      border-bottom-right-radius:5px;
+      border-top-right-radius:5px
+    }
+    .hg-candidate-box-prev {
+      border-bottom-left-radius:5px;
+      border-top-left-radius:5px
+    }
+    .hg-candidate-box-btn-active {
+      color:#444
     }
   }
 }

@@ -3,6 +3,7 @@
     :class="[
       'key-board-button',
       `key-board-button-${type}`,
+      {'active': isActiveStatus},
       {
         'key-board-button-active':
           (isUpper && type === 'upper') ||
@@ -14,6 +15,8 @@
     @click="click"
     @mouseenter="isHoverStatus = true"
     @mouseleave="isHoverStatus = false"
+    @mousedown="isActiveStatus = true"
+    @mouseup="isActiveStatus = false"
   >
     <svg-icon
       v-if="
@@ -50,6 +53,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const injectData = getInject();
     const isHoverStatus = ref<boolean>(false);
+    const isActiveStatus = ref<boolean>(false);
 
     // computed
     const getCode = computed(() => {
@@ -67,13 +71,13 @@ export default defineComponent({
         isHoverStatus.value
       ) {
         return {
-          color: "#f5f5f5",
-          background: injectData?.color,
+          color: injectData?.color,
+          background: '#faf7f7',
         };
       } else {
         return {
           color: injectData?.color,
-          background: "#f5f5f5",
+          background: "#fff",
         };
       }
     });
@@ -95,6 +99,7 @@ export default defineComponent({
       getStyle,
       getCode,
       click,
+      isActiveStatus
     };
   },
 });
@@ -102,19 +107,23 @@ export default defineComponent({
 
 <style lang='less'>
 .key-board-button {
-  padding: 0;
-  width: 90px;
+  padding: 10px;
+  margin-right: 10px;
+  white-space: nowrap;
+  box-shadow: 0 0 3px -1px rgba(0,0,0,.3);
+  border: none;
+  border-bottom: 1px solid #b5b5b5;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  width: 100%;
   height: 90px;
-  border-radius: 50%;
+  border-radius: 10px;
   font-size: 35px;
   text-align: center;
   font-weight: 400;
-  line-height: 90px;
   outline: none;
-  border: none;
   transition: all 0.35s;
-  display: flex;
-  justify-content: center;
   align-items: center;
 
   label {
@@ -127,17 +136,20 @@ export default defineComponent({
   }
 
   &.key-board-button-close {
+    width: 100px;
     svg {
       width: 50px;
-      height: 50px;
     }
+  }
+
+  &.active {
+    background: #e0dddd !important;
   }
 
   &:hover,
   &.key-board-button-active {
     svg {
       fill: none !important;
-      stroke: #f5f5f5 !important;
     }
   }
 
@@ -161,14 +173,10 @@ export default defineComponent({
   &.key-board-button-change2num,
   &.key-board-button-change2lang {
     width: 135px;
-    height: 90px;
-    border-radius: 45px;
   }
 
   &.key-board-button-space {
-    flex: 1;
-    height: 90px;
-    border-radius: 45px;
+    flex: 1 1 100%;
   }
 
   &.key-board-button-change2num,
