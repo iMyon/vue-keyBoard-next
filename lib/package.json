@@ -1,6 +1,6 @@
 {
   "name": "@imyon/vue-keyboard-next ",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "keyBoard base on Vue3 , support hand write✒",
   "main": "index.js",
   "keywords": [

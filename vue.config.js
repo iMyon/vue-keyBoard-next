@@ -40,7 +40,7 @@ module.exports = {
       postcss: {
         plugins: [
           require('postcss-px2rem')({
-            remUnit: 300,
+            remUnit: 20,
             unitPrecision: 5, // 最小精度，小数点位数
             minPixelValue: 2 // 替换的最小像素值
           })

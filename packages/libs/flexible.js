@@ -67,10 +67,11 @@
     }
 
     function refreshRem() {
-        var width = docEl.getBoundingClientRect().width;
-        var rem = width / 10;
-        docEl.style.fontSize = rem + 'px';
-        flexible.rem = win.rem = rem;
+        // var width = docEl.getBoundingClientRect().width;
+        // var rem = width * (14 / 1920);
+        // docEl.style.fontSize = rem + 'px';
+        // flexible.rem = win.rem = rem;
+      // do nothing
     }
 
     win.addEventListener('resize', function () {
